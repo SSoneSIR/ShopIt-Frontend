@@ -1,16 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  ArrowLeft,
-  MapPin,
-  Truck,
-  Trash2,
-  BadgePercent,
-  RefreshCw,
-} from "lucide-react";
+import { Truck, Trash2, BadgePercent, RefreshCw } from "lucide-react";
 import Header from "../../components/ui/Header";
 import CategoryCard from "../../components/ui/CategoryCard";
-import ProductCard from "../../components/ui/ProductCards";
 import { useCart } from "../../contexts/CartContext";
 
 // Import category card images
@@ -173,19 +165,20 @@ export default function Checkout() {
     <div className="min-h-screen ">
       <Header cartCount={cartCount} />
       <div className="container mx-auto px-4 py-6 max-w-7xl">
-        {/* Back Button and Cart Title */}
-        <div className="mb-6 flex items-center gap-4">
-          <button
-            onClick={() => navigate(-1)}
-            className="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200 transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </button>
-        </div>
-
         {/* Delivery Information Section */}
         <div className=" rounded-lg  p-6 mb-6 max-w-2xl mx-auto">
           <div className="flex flex-col gap-4">
+            <div className="text-center">
+              {/* Back Button */}
+              <button
+                onClick={() => navigate(-1)}
+                className="flex items-center gap-2 text-gray-700 hover:text-gray-500 mb-2 font-medium transition-colors cursor-pointer"
+              >
+                <span className="flex items-start justify-center w-8 h-8 bg-white rounded-md shadow-md text-green-600 font-bold text-lg">
+                  &lt;
+                </span>
+              </button>
+            </div>
             <div className="text-center">
               <p className="text-gray-900 font-bold text-base">{userName}</p>
               <span className="font-normal">{userPhone}</span>
@@ -208,9 +201,9 @@ export default function Checkout() {
         </div>
 
         {/* Main Content: Cart Items and Checkout Summary */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
           {/* Left Column: Cart Items */}
-          <div className="lg:col-span-2">
+          <div className="">
             <h2 className="text-xl font-bold text-gray-900 mb-4">Cart Items</h2>
             <div className="space-y-4">
               {cartItems.length > 0 ? (
@@ -222,13 +215,13 @@ export default function Checkout() {
                     {/* Remove Button */}
                     <button
                       onClick={() => handleRemoveItem(item.id)}
-                      className="text-red-400 hover:text-red-600 transition-colors self-start mt-1"
+                      className="text-red-400 hover:text-red-600 transition-colors  cursor-pointer"
                     >
                       <Trash2 className="w-5 h-5" />
                     </button>
 
                     {/* Product Image */}
-                    <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <div className="w-20 h-20  rounded-lg flex items-center justify-center flex-shrink-0">
                       {item.image ? (
                         <img
                           src={item.image}
@@ -250,41 +243,44 @@ export default function Checkout() {
                           {item.weight}
                         </p>
                       )}
-                      <p className="text-gray-900 font-bold text-base">
-                        Rs. {item.price}
-                      </p>
+                      <div className="flex items-center justify-between mt-3">
+                        <p className="text-gray-900 font-bold text-base">
+                          Rs. {item.price}
+                        </p>
 
-                      {/* Quantity Controls */}
-                      <div className="flex items-center gap-3 mt-3">
-                        <button
-                          onClick={() =>
-                            handleUpdateQuantity(item.id, item.quantity - 1)
-                          }
-                          className="w-8 h-8 rounded-full bg-green-100 hover:bg-green-200 text-green-700 font-bold flex items-center justify-center transition-colors"
-                        >
-                          −
-                        </button>
-                        <span className="px-4 py-1 bg-white border border-gray-200 rounded-lg font-semibold text-gray-900 min-w-[3rem] text-center shadow-sm">
-                          {item.quantity}
-                        </span>
-                        <button
-                          onClick={() =>
-                            handleUpdateQuantity(item.id, item.quantity + 1)
-                          }
-                          className="w-8 h-8 rounded-full bg-green-100 hover:bg-green-200 text-green-700 font-bold flex items-center justify-center transition-colors"
-                        >
-                          +
-                        </button>
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={() =>
+                              handleUpdateQuantity(item.id, item.quantity - 1)
+                            }
+                            className="w-8 h-8 rounded-full bg-green-50 hover:bg-green-100 text-green-700 font-bold flex items-center justify-center transition-colors cursor-pointer"
+                          >
+                            −
+                          </button>
+
+                          <span className="px-4 py-1  bg-gray-100  rounded-2xl font-semibold text-gray-900 min-w-[3rem] text-center shadow-sm">
+                            {item.quantity}
+                          </span>
+
+                          <button
+                            onClick={() =>
+                              handleUpdateQuantity(item.id, item.quantity + 1)
+                            }
+                            className="w-8 h-8 rounded-full bg-green-50 hover:bg-green-100 text-green-700 font-bold flex items-center justify-center transition-colors cursor-pointer"
+                          >
+                            +
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="bg-white rounded-lg shadow-sm p-8 text-center">
+                <div className=" rounded-lg  p-8 text-center">
                   <p className="text-gray-500 text-lg">Your cart is empty</p>
                   <button
                     onClick={() => navigate("/")}
-                    className="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                    className="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors cursor-pointer"
                   >
                     Continue Shopping
                   </button>
@@ -294,15 +290,15 @@ export default function Checkout() {
           </div>
 
           {/* Right Column: Checkout Cart */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-sm p-6 sticky top-24">
+          <div className="lg:col-span-1 w-auto max-w-md mx-auto">
+            <div className="border-l border-gray-300  p-6 sticky top-24 ">
               <h2 className="text-xl font-bold text-gray-900 mb-4">
                 Checkout Cart
               </h2>
 
               {/* Promo Code Section */}
-              <div className="mb-6">
-                <div className="flex items-center gap-2 mb-2">
+              <div className="mb-6 border-b border-gray-300 ">
+                <div className="flex items-center gap-2 mb-2 ">
                   <input
                     type="text"
                     placeholder="Promo Code"
@@ -310,10 +306,10 @@ export default function Checkout() {
                     onChange={(e) => setPromoCode(e.target.value)}
                     className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200"
                   />
-                  <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold">
+                  <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold cursor-pointer">
                     Apply
                   </button>
-                  <button className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                  <button className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors ">
                     <BadgePercent className="w-5 h-5 text-gray-600" />
                   </button>
                 </div>
@@ -333,8 +329,8 @@ export default function Checkout() {
                   <span>Discount:</span>
                   <span className="font-semibold">Rs. {discount}</span>
                 </div>
-                <div className="border-t border-gray-200 pt-3 flex justify-between">
-                  <span className="text-lg font-bold text-gray-900">
+                <div className="border-t border-gray-300 pt-3 flex justify-end">
+                  <span className="text-lg font-bold text-gray-900 mr-2">
                     Total:
                   </span>
                   <span className="text-lg font-bold text-green-600">
@@ -347,7 +343,7 @@ export default function Checkout() {
               <button
                 onClick={handlePlaceOrder}
                 disabled={cartItems.length === 0}
-                className="w-full bg-green-600 text-white py-4 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed text-lg"
+                className="w-full bg-green-600 text-white py-4 rounded-full font-semibold hover:bg-green-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed text-lg cursor-pointer  "
               >
                 Place an Order
               </button>

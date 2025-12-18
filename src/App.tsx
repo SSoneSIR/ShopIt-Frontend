@@ -9,16 +9,16 @@ import { CartProvider } from "./contexts/CartContext";
 const Index = () => {
   return (
     <CartProvider>
-      <div className="relative min-h-screen bg-gray-50">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
+    <div className="relative min-h-screen bg-gray-50">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/product/:id" element={<ProductDetailsPage />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
+        </Routes>
+      </BrowserRouter>
+    </div>
     </CartProvider>
   );
 };
