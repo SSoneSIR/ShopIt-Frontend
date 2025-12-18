@@ -15,7 +15,11 @@ const CategoryCard = ({
 }: CategoryCardProps) => {
   return (
     <div
-      onClick={onClick}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onClick();
+      }}
       className={`relative ${bgColor} rounded-xl md:rounded-2xl lg:rounded-[20px] w-full aspect-[3/2] cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-card-hover overflow-hidden ${
         isActive ? "ring-2 ring-primary ring-offset-2" : ""
       }`}

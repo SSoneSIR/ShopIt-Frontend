@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
+import type { Product } from "../data/products"; // Import Product type
 
 interface CartItem {
   id: number;
@@ -13,11 +14,10 @@ interface CartItem {
 interface CartContextType {
   cartItems: CartItem[];
   cartCount: number;
-  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
-  setCartCount: React.Dispatch<React.SetStateAction<number>>;
-  handleAddToCart: (product: any, _event?: any) => void;
+  handleAddToCart: (product: Product, _event?: any) => void; // Changed to accept Product
   handleUpdateQuantity: (id: number, quantity: number) => void;
   handleRemoveItem: (id: number) => void;
+  clearCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -26,38 +26,68 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [cartCount, setCartCount] = useState(0);
 
-  const handleAddToCart = (product: any, _event?: any) => {
-    setCartItems((prevItems) => {
-      const existingItem = prevItems.find((item) => item.id === product.id);
-      if (existingItem) {
-        return prevItems.map((item) =>
+  const recalculateCartCount = (items: CartItem[]) => {
+    return items.reduce((sum, item) => sum + item.quantity, 0);
+  };
+
+  const handleAddToCart = (product: Product) => {
+    setCartItems((prev) => {
+      const existing = prev.find((item) => item.id === product.id);
+
+      let updatedItems: CartItem[];
+
+      if (existing) {
+        updatedItems = prev.map((item) =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
+      } else {
+        // Convert Product to CartItem by extracting needed properties
+        const cartItem: CartItem = {
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          quantity: 1,
+          image: product.image,
+          weight: product.weight,
+        };
+        updatedItems = [...prev, cartItem];
       }
-      return [...prevItems, { ...product, quantity: 1 }];
+
+      setCartCount(recalculateCartCount(updatedItems));
+      return updatedItems;
     });
-    setCartCount((prev) => prev + 1);
   };
 
   const handleUpdateQuantity = (id: number, quantity: number) => {
-    if (quantity <= 0) {
-      handleRemoveItem(id);
-      return;
-    }
-    setCartItems((prevItems) =>
-      prevItems.map((item) => (item.id === id ? { ...item, quantity } : item))
-    );
-    const item = cartItems.find((i) => i.id === id);
-    const diff = quantity - (item?.quantity || 0);
-    setCartCount((prev) => prev + diff);
+    setCartItems((prev) => {
+      let updatedItems: CartItem[];
+
+      if (quantity <= 0) {
+        updatedItems = prev.filter((item) => item.id !== id);
+      } else {
+        updatedItems = prev.map((item) =>
+          item.id === id ? { ...item, quantity } : item
+        );
+      }
+
+      setCartCount(recalculateCartCount(updatedItems));
+      return updatedItems;
+    });
   };
 
   const handleRemoveItem = (id: number) => {
-    const item = cartItems.find((i) => i.id === id);
-    setCartCount((prev) => prev - (item?.quantity || 0));
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    setCartItems((prev) => {
+      const updatedItems = prev.filter((item) => item.id !== id);
+      setCartCount(recalculateCartCount(updatedItems));
+      return updatedItems;
+    });
+  };
+
+  const clearCart = () => {
+    setCartItems([]);
+    setCartCount(0);
   };
 
   return (
@@ -65,11 +95,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
       value={{
         cartItems,
         cartCount,
-        setCartItems,
-        setCartCount,
         handleAddToCart,
         handleUpdateQuantity,
         handleRemoveItem,
+        clearCart,
       }}
     >
       {children}
@@ -79,8 +108,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
 export function useCart() {
   const context = useContext(CartContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error("useCart must be used within a CartProvider");
   }
   return context;
 }
+
+export type { CartItem }; // Export CartItem type for use in other components

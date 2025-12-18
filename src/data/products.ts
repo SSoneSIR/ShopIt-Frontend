@@ -202,14 +202,14 @@ export const allProducts: Product[] = [
   },
   {
     id: 18,
-    name: "Green Peas (Pods, fresh village grown)",
+    name: "Liq 1",
     image: GreenPeas,
     rating: 4.5,
     weight: "50g",
     price: 60,
     originalPrice: 80,
     category: "Popular",
-    categoryCard: "Daily Grocery's",
+    categoryCard: "Liquors & Smokes",
   },
 ];
 

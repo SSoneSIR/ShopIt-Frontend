@@ -6,6 +6,7 @@ import LocationSelector from "./header/LocationSelector";
 import CartButton from "./header/CartButton";
 import LoginButton from "./header/LoginButton";
 import { Menu, X, MapPin } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface HeaderProps {
   cartCount: number;
@@ -28,9 +29,10 @@ const categories = [
 export default function Header({ cartCount = 3, onCartClick }: HeaderProps) {
   const [selectedLocation, setSelectedLocation] = useState("Set Location here");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogoClick = () => {
-    window.location.reload();
+    navigate("/");
   };
 
   return (

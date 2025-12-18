@@ -24,7 +24,9 @@ export default function ProductDetails() {
   const [showAllRelated, setShowAllRelated] = useState(false);
   const [expandedDescription, setExpandedDescription] = useState(false);
   const [showCheckoutButton, setShowCheckoutButton] = useState(false);
-  const [detailViewCategory, setDetailViewCategory] = useState<string>("");
+  const [detailViewCategory, setDetailViewCategory] = useState<string>(
+    selectedProduct?.categoryCard || "All"
+  );
 
   // Scroll to top when product changes
   useEffect(() => {
@@ -56,6 +58,9 @@ export default function ProductDetails() {
   }
 
   const getRelatedProducts = (categoryCard: string) => {
+    if (categoryCard === "All") {
+      return allProducts.filter((p) => p.id !== selectedProduct.id);
+    }
     return allProducts.filter(
       (p) => p.categoryCard === categoryCard && p.id !== selectedProduct.id
     );
@@ -75,7 +80,7 @@ export default function ProductDetails() {
   };
 
   const similarProducts = getSimilarProducts();
-  const relatedProducts = getRelatedProducts(selectedProduct.categoryCard);
+  const relatedProducts = getRelatedProducts(detailViewCategory);
   const displayedSimilarProducts = showAllSimilar
     ? similarProducts.slice(0, 5)
     : similarProducts.slice(0, 3);
@@ -357,14 +362,6 @@ export default function ProductDetails() {
                 {...category}
                 onClick={() => {
                   setDetailViewCategory(category.name);
-                  setTimeout(() => {
-                    document
-                      .getElementById("related-products")
-                      ?.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start",
-                      });
-                  }, 100);
                 }}
                 isActive={detailViewCategory === category.name}
               />
@@ -376,7 +373,9 @@ export default function ProductDetails() {
         <div id="related-products" className="mb-8 mt-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold text-gray-900">
-              More {selectedProduct.categoryCard} Products
+              {detailViewCategory === "All"
+                ? "All Products"
+                : `More ${detailViewCategory} Products`}
             </h2>
             {relatedProducts.length > 8 && (
               <button

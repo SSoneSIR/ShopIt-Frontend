@@ -9,7 +9,11 @@ export default function Logo({ onClick, className = "" }: LogoProps) {
   return (
     <img
       src={logoImage}
-      onClick={onClick}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (onClick) onClick();
+      }}
       alt="Shopit Logo"
       className={`cursor-pointer object-contain ${className}`}
     />
