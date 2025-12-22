@@ -92,20 +92,17 @@ export default function ProductDetails() {
   const isInCart = cartItems.find((item) => item.id === selectedProduct.id);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-100">
       <Header cartCount={cartCount} />
-      <div className="container mx-auto px-4 py-6">
-        <div className="mb-6 flex justify-center">
-          <div className="flex flex-col md:flex-row gap-4 max-w-4xl w-full">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-6">
+        <div className="mb-6">
+          <div className="flex flex-col md:flex-row gap-20 ">
             {/* Product Image */}
-            <div
-              className="bg-gray-100 rounded-lg p-4 flex items-center justify-center flex-shrink-0"
-              style={{ width: "180px", height: "180px" }}
-            >
+            <div className="bg-gray-200 rounded-lg p-4 flex items-center justify-center flex-shrink-0 w-[180px] h-[180px] sm:w-[200px] sm:h-[200px] md:w-[250px] md:h-[250px]">
               <img
                 src={selectedProduct.image}
                 alt={selectedProduct.name}
-                className="max-w-full max-h-full object-contain"
+                className="h-full w-full  object-contain cursor-pointer"
               />
             </div>
 
@@ -329,7 +326,7 @@ export default function ProductDetails() {
                   )}
                 </div>
                 {similarProducts.length > 0 ? (
-                  <div className="grid gap-3 grid-cols-2 sm:grid-cols-3">
+                  <div className="grid gap-4 grid-cols-2 sm:grid-cols-4">
                     {displayedSimilarProducts.map((product) => (
                       <ProductCard
                         key={product.id}
@@ -352,7 +349,7 @@ export default function ProductDetails() {
         </div>
 
         {/* Category Cards */}
-        <div>
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
           <h2 className="text-xl font-bold text-gray-900 mb-4">
             Popular Categories
           </h2>
@@ -371,7 +368,10 @@ export default function ProductDetails() {
         </div>
 
         {/* Related Products */}
-        <div id="related-products" className="mb-8 mt-8">
+        <div
+          id="related-products"
+          className="mb-8 mt-8 max-w-7xl mx-auto px-4 md:px-6"
+        >
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold text-gray-900">
               {detailViewCategory === "All"

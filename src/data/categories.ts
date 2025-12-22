@@ -1,8 +1,8 @@
 // Import category card images
-import DailyGroceries from "../assets/ProductCategoryCards/dailygrocries.webp";
-import TechAndAccessories from "../assets/ProductCategoryCards/techand accessories.webp";
-import SnacksAndFastFood from "../assets/ProductCategoryCards/snacks and fastfood.webp";
-import LiqoursAndSmokes from "../assets/ProductCategoryCards/LiqoursAndSmokes.webp";
+import DailyGroceries from "/assets/ProductCategoryCards/dailygrocries.webp";
+import TechAndAccessories from "/assets/ProductCategoryCards/techand accessories.webp";
+import SnacksAndFastFood from "/assets/ProductCategoryCards/snacks and fastfood.webp";
+import LiqoursAndSmokes from "/assets/ProductCategoryCards/LiqoursAndSmokes.webp";
 
 export interface Category {
   name: string;

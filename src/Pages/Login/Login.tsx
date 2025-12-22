@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { User, Lock, ChevronLeft, PersonStanding, Truck } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 // Import your background image
-import LoginImage from "../../assets/Login/LoginImage.webp";
-import logoImage from "../../assets/Logo/logo.webp";
-import rightImage from "../../assets/Login/splitscreen bg img login.png";
+import LoginImage from "/assets/Login/LoginImage.webp";
+import logoImage from "/assets/Logo/logo.webp";
+import rightImage from "/assets/Login/splitscreen bg img login.png";
 // Auth Layout Component for Signup Flow (Split Screen)
 const SignupLayout = ({ children }: { children: React.ReactNode }) => {
   return (

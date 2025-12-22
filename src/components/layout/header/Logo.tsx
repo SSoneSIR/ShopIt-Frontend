@@ -1,4 +1,4 @@
-import logoImage from "../../../assets/Logo/logo.webp";
+import logoImage from "/assets/Logo/logo.webp";
 
 interface LogoProps {
   onClick?: () => void;

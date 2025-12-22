@@ -12,7 +12,7 @@ import CategoryCardSkeleton from "../../components/skeletons/CategoryCardSkeleto
 // Import product data
 import { allProducts } from "../../data/products";
 
-import fonepay from "../../assets/PaymentTypes/fonepay.svg";
+import fonepay from "/assets/PaymentTypes/fonepay.svg";
 interface CartItem {
   id: number;
   name: string;

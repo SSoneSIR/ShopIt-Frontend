@@ -10,10 +10,10 @@ import ProductCardSkeleton from "../../components/skeletons/ProductCardSkeleton"
 import CategoryCardSkeleton from "../../components/skeletons/CategoryCardSkeleton";
 
 // Import category card images
-import DailyGroceries from "../../assets/ProductCategoryCards/dailygrocries.webp";
-import TechAndAccessories from "../../assets/ProductCategoryCards/techand accessories.webp";
-import SnacksAndFastFood from "../../assets/ProductCategoryCards/snacks and fastfood.webp";
-import LiqoursAndSmokes from "../../assets/ProductCategoryCards/LiqoursAndSmokes.webp";
+import DailyGroceries from "/assets/ProductCategoryCards/dailygrocries.webp";
+import TechAndAccessories from "/assets/ProductCategoryCards/techand accessories.webp";
+import SnacksAndFastFood from "/assets/ProductCategoryCards/snacks and fastfood.webp";
+import LiqoursAndSmokes from "/assets/ProductCategoryCards/LiqoursAndSmokes.webp";
 
 // Import product data
 import { allProducts } from "../../data/products";
