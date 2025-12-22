@@ -6,6 +6,8 @@ import ProductDetailsPage from "./Pages/ProductDetails/ProductDetails";
 import { CartProvider } from "./contexts/CartContext";
 import OrderConfirmation from "./Pages/Checkout/OrderConfirmationPage";
 import OrderReview from "./Pages/Checkout/OrderReview";
+import { Toaster } from "sonner";
+import SearchProduct from "./Pages/SearchProduct/SearchProduct";
 
 // Main Index Component
 const Index = () => {
@@ -20,8 +22,10 @@ const Index = () => {
             <Route path="/product/:id" element={<ProductDetailsPage />} />
             <Route path="/order-confirmation" element={<OrderConfirmation />} />
             <Route path="/order-review" element={<OrderReview />} />
+            <Route path="/search" element={<SearchProduct />} />
           </Routes>
         </BrowserRouter>
+        <Toaster />
       </div>
     </CartProvider>
   );

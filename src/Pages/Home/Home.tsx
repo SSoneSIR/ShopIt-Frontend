@@ -1,18 +1,18 @@
 import { useState, useRef, useEffect } from "react";
-import Header from "../../components/ui/Header";
-import CategoryCard from "../../components/ui/CategoryCard";
-import ProductCard from "../../components/ui/ProductCards";
-import CategoryTabs from "../../components/ui/CategoryTabs";
-import { Body } from "../../components/ui/Body";
-import CartSidebar from "../../components/ui/CartSideBar";
-import CartToast from "../../components/ui/CartToast";
+import Header from "../../components/layout/Header";
+import CategoryCard from "../../components/cards/CategoryCard";
+import ProductCard from "../../components/cards/ProductCards";
+import CategoryTabs from "./components/CategoryTabs";
+import { Body } from "./components/Body";
+import CartSidebar from "./components/CartSideBar";
+import CartToast from "../../components/feedback/CartToast";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 import { popularCategories, categoryTabs } from "../../data/categories";
 import { allProducts } from "../../data/products";
 import type { Product } from "../../data/products";
-import ProductCardSkeleton from "../../components/ui/ProductCardSkeleton";
-import CategoryCardSkeleton from "../../components/ui/CategoryCardSkeleton";
+import ProductCardSkeleton from "../../components/skeletons/ProductCardSkeleton";
+import CategoryCardSkeleton from "../../components/skeletons/CategoryCardSkeleton";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -97,6 +97,7 @@ export default function HomePage() {
       <Header
         cartCount={cartCount}
         onCartClick={() => setIsCartOpen(!isCartOpen)}
+        onCloseCart={() => setIsCartOpen(false)}
       />
       <div
         className={`transition-all duration-300 ease-in-out ${

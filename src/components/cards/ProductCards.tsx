@@ -10,7 +10,7 @@ interface ProductCardProps {
   originalPrice?: number;
   discount?: string;
   category: string;
-  onAddToCart: () => void;
+  onAddToCart: (event?: React.MouseEvent) => void;
   onClick?: () => void;
 }
 
@@ -68,7 +68,7 @@ const ProductCard = ({
         <button
           onClick={(e) => {
             e.stopPropagation();
-            onAddToCart();
+            onAddToCart(e);
           }}
           className="w-8 h-8 bg-green-600 cursor-pointer hover:bg-green-200 text-white rounded-full flex items-center justify-center transition-colors"
         >

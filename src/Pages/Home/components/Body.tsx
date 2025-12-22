@@ -1,7 +1,7 @@
-import img1 from "../../assets/Body/img1.webp";
-import img2 from "../../assets/Body/img2.webp";
-import img3 from "../../assets/Body/img3.webp";
-import img4 from "../../assets/Body/img4.webp";
+import img1 from "../../../assets/Body/img1.webp";
+import img2 from "../../../assets/Body/img2.webp";
+import img3 from "../../../assets/Body/img3.webp";
+import img4 from "../../../assets/Body/img4.webp";
 
 function Body() {
   const promoCards = [

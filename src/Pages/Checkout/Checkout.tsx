@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Truck, Trash2, BadgePercent, RefreshCw } from "lucide-react";
-import Header from "../../components/ui/Header";
-import CategoryCard from "../../components/ui/CategoryCard";
-import ProductCard from "../../components/ui/ProductCards";
+import Header from "../../components/layout/Header";
+import CategoryCard from "../../components/cards/CategoryCard";
+import ProductCard from "../../components/cards/ProductCards";
 import { useCart } from "../../contexts/CartContext";
-import CheckoutItemSkeleton from "../../components/checkout/CheckoutItemSkeleton";
-import ProductCardSkeleton from "../../components/ui/ProductCardSkeleton";
-import CategoryCardSkeleton from "../../components/ui/CategoryCardSkeleton";
+import CheckoutItemSkeleton from "./components/CheckoutItemSkeleton";
+import ProductCardSkeleton from "../../components/skeletons/ProductCardSkeleton";
+import CategoryCardSkeleton from "../../components/skeletons/CategoryCardSkeleton";
 
 // Import category card images
 import DailyGroceries from "../../assets/ProductCategoryCards/dailygrocries.webp";

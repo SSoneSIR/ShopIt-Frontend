@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Header from "../../components/ui/Header";
-import CategoryCard from "../../components/ui/CategoryCard";
-import ProductCard from "../../components/ui/ProductCards";
+import Header from "../../components/layout/Header";
+import CategoryCard from "../../components/cards/CategoryCard";
+import ProductCard from "../../components/cards/ProductCards";
 import { ChevronDown, ChevronUp, Truck } from "lucide-react";
 import { useCart } from "../../contexts/CartContext";
 import { allProducts } from "../../data/products";
@@ -72,8 +72,9 @@ export default function ProductDetails() {
     );
   };
 
-  const handleAddToCartClick = (product: Product, event?: any) => {
-    handleAddToCart(product, event);
+  const handleAddToCartClick = (product: Product, event?: React.MouseEvent) => {
+    event?.stopPropagation();
+    handleAddToCart(product);
     if (product.id === selectedProduct.id) {
       setShowCheckoutButton(true);
     }
@@ -399,7 +400,7 @@ export default function ProductDetails() {
               <ProductCard
                 key={product.id}
                 {...product}
-                onAddToCart={(e) => handleAddToCartClick(product, e)}
+                onAddToCart={(e?: any) => handleAddToCartClick(product, e)}
                 onClick={() => handleProductClick(product.id)}
               />
             ))}

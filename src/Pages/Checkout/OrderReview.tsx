@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { Truck } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Header from "../../components/ui/Header";
-import CategoryCard from "../../components/ui/CategoryCard";
-import ProductCard from "../../components/ui/ProductCards";
+import Header from "../../components/layout/Header";
+import CategoryCard from "../../components/cards/CategoryCard";
+import ProductCard from "../../components/cards/ProductCards";
 import { popularCategories } from "../../data/categories";
 import { useCart } from "../../contexts/CartContext";
-import ProductCardSkeleton from "../../components/ui/ProductCardSkeleton";
-import CategoryCardSkeleton from "../../components/ui/CategoryCardSkeleton";
+import ProductCardSkeleton from "../../components/skeletons/ProductCardSkeleton";
+import CategoryCardSkeleton from "../../components/skeletons/CategoryCardSkeleton";
 
 // Import product data
 import { allProducts } from "../../data/products";

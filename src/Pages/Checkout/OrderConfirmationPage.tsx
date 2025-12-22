@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ShoppingBag, ChevronLeft } from "lucide-react";
-import Header from "../../components/ui/Header";
-import CategoryCard from "../../components/ui/CategoryCard";
+import Header from "../../components/layout/Header";
+import CategoryCard from "../../components/cards/CategoryCard";
 import { useCart } from "../../contexts/CartContext";
 import { popularCategories } from "../../data/categories";
 

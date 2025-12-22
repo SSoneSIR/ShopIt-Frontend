@@ -14,7 +14,7 @@ interface CartItem {
 interface CartContextType {
   cartItems: CartItem[];
   cartCount: number;
-  handleAddToCart: (product: Product, _event?: any) => void; // Changed to accept Product
+  handleAddToCart: (product: Product) => void; // Fixed to match implementation
   handleUpdateQuantity: (id: number, quantity: number) => void;
   handleRemoveItem: (id: number) => void;
   clearCart: () => void;
