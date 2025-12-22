@@ -6,12 +6,13 @@ import CategoryCard from "../../components/ui/CategoryCard";
 import ProductCard from "../../components/ui/ProductCards";
 import { popularCategories } from "../../data/categories";
 import { useCart } from "../../contexts/CartContext";
+import ProductCardSkeleton from "../../components/ui/ProductCardSkeleton";
+import CategoryCardSkeleton from "../../components/ui/CategoryCardSkeleton";
 
 // Import product data
 import { allProducts } from "../../data/products";
 
-import fonepay from "../../assets/PaymentTypes/fonepay.png";
-
+import fonepay from "../../assets/PaymentTypes/fonepay.svg";
 interface CartItem {
   id: number;
   name: string;
@@ -58,6 +59,16 @@ export default function OrderReview() {
   const [deliveryInstructions, setDeliveryInstructions] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate loading data
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Redirect to cart if no items
   useEffect(() => {
@@ -245,7 +256,7 @@ export default function OrderReview() {
               </div>
 
               {/* Payment Method */}
-              <div className="mb-6 pt-4 border border-gray-100 rounded-2xl bg-white">
+              <div className="mb-6 pt-4 border border-gray-100 rounded-2xl bg-white sticky ">
                 <div className="border-b border-gray-100 bg-white pl-5 sticky top-24">
                   <p className="text-sm font-semibold text-gray-700 mb-3">
                     Payment Method
@@ -323,42 +334,49 @@ export default function OrderReview() {
             </button>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            {popularCategories.map((category) => (
-              <CategoryCard
-                key={category.name}
-                {...category}
-                onClick={() =>
-                  setSelectedCategory(
-                    selectedCategory === category.name ? null : category.name
-                  )
-                }
-                isActive={selectedCategory === category.name}
-              />
-            ))}
+            {isLoading
+              ? Array.from({ length: 4 }).map((_, index) => (
+                  <CategoryCardSkeleton key={index} />
+                ))
+              : popularCategories.map((category) => (
+                  <CategoryCard
+                    key={category.name}
+                    {...category}
+                    onClick={() =>
+                      setSelectedCategory(
+                        selectedCategory === category.name
+                          ? null
+                          : category.name
+                      )
+                    }
+                    isActive={selectedCategory === category.name}
+                  />
+                ))}
           </div>
         </div>
 
         {/* Products Display Section */}
-        {selectedCategory && filteredProducts.length > 0 && (
+        {selectedCategory && (
           <div className="mb-8">
             <h2 className="text-xl font-bold text-gray-900 mb-4">
               {selectedCategory} Products
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {filteredProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  {...product}
-                  onAddToCart={(e) => {
-                    e?.stopPropagation();
-                    // In a real implementation, you might want to show a message
-                    // that items can't be added during order review
-                    alert(
-                      "Please complete your current order before adding new items"
-                    );
-                  }}
-                />
-              ))}
+              {isLoading
+                ? Array.from({ length: 8 }).map((_, index) => (
+                    <ProductCardSkeleton key={index} />
+                  ))
+                : filteredProducts.map((product) => (
+                    <ProductCard
+                      key={product.id}
+                      {...product}
+                      onAddToCart={() => {
+                        alert(
+                          "Please complete your current order before adding new items"
+                        );
+                      }}
+                    />
+                  ))}
             </div>
           </div>
         )}

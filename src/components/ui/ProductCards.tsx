@@ -10,7 +10,7 @@ interface ProductCardProps {
   originalPrice?: number;
   discount?: string;
   category: string;
-  onAddToCart: (e?: React.MouseEvent) => void;
+  onAddToCart: () => void;
   onClick?: () => void;
 }
 
@@ -40,6 +40,9 @@ const ProductCard = ({
           src={image}
           alt={name}
           className="h-full object-contain cursor-pointer"
+          loading="lazy"
+          width="100"
+          height="100"
         />
       </div>
       <h4 className="text-foreground cursor-pointer font-medium text-sm line-clamp-2 min-h-[40px]">

@@ -29,26 +29,67 @@ const categories = [
 export default function Header({ cartCount = 3, onCartClick }: HeaderProps) {
   const [selectedLocation, setSelectedLocation] = useState("Set Location here");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
     navigate("/");
   };
 
+  const handleSearchFocus = () => {
+    setIsSearchFocused(true);
+  };
+
+  const handleSearchClose = () => {
+    setIsSearchFocused(false);
+  };
+
+  // Render search-only mode when focused (desktop only)
+  if (isSearchFocused) {
+    return (
+      <header className="bg-white border-b border-gray-200 shadow-sm w-full sticky top-0 z-50 transition-all duration-300 ease-in-out transform scale-100">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-3">
+          <div className="flex items-center gap-2 w-full">
+            <div className="flex-grow relative">
+              <SearchBar
+                className="flex-grow transition-all duration-300 ease-in-out"
+                isFocused={true}
+                onFocus={handleSearchFocus}
+                onClose={handleSearchClose}
+              />
+            </div>
+            <button
+              onClick={handleSearchClose}
+              className="text-red-500 hover:text-red-700 transition-all duration-300 cursor-pointer"
+            >
+              <X className="w-6 h-6 transition-transform duration-300 hover:scale-110" />
+            </button>
+          </div>
+        </div>
+      </header>
+    );
+  }
+
   return (
-    <header className="bg-white border-b border-gray-200 shadow-sm w-full sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-3">
+    <header className="bg-white border-b border-gray-200 shadow-sm w-full sticky top-0 z-50 transition-all duration-300 ease-in-out transform scale-100">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 transition-all duration-300 ease-in-out">
         {/* Desktop Header (lg and above) */}
         <div className="hidden lg:flex flex-nowrap items-center gap-4">
           <div className="flex-shrink-0">
-            <Logo onClick={handleLogoClick} className="h-16 w-48" />
+            <Logo onClick={handleLogoClick} className="h-8 w-24" />
           </div>
 
           <div className="flex-grow-[4]"></div>
 
           <CategoriesDropdown categories={categories} />
 
-          <SearchBar className="flex-grow-2" />
+          <SearchBar
+            className="flex-grow-2"
+            isFocused={false}
+            onFocus={handleSearchFocus}
+            onClose={handleSearchClose}
+          />
 
           <LocationSelector
             selectedLocation={selectedLocation}
@@ -66,7 +107,12 @@ export default function Header({ cartCount = 3, onCartClick }: HeaderProps) {
             <Logo className="h-12 w-auto" />
           </div>
 
-          <SearchBar className="flex-grow" />
+          <SearchBar
+            className="flex-grow"
+            isFocused={false}
+            onFocus={handleSearchFocus}
+            onClose={handleSearchClose}
+          />
 
           <div className="flex items-center gap-2">
             <CartButton cartCount={cartCount} onClick={onCartClick} />
@@ -108,7 +154,12 @@ export default function Header({ cartCount = 3, onCartClick }: HeaderProps) {
           </div>
 
           <div className="mt-2 sm:mt-3 flex items-center gap-2">
-            <SearchBar className="flex-grow" />
+            <SearchBar
+              className="flex-grow"
+              isFocused={false}
+              onFocus={handleSearchFocus}
+              onClose={handleSearchClose}
+            />
             <button className="p-2 hover:bg-gray-50 rounded-full transition-colors border border-gray-300 bg-white flex-shrink-0">
               <MapPin className="w-5 sm:w-6 h-5 sm:h-6 text-green-600" />
             </button>

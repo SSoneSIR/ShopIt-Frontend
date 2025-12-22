@@ -1,7 +1,7 @@
-import img1 from "../../assets/Body/img1.png";
-import img2 from "../../assets/Body/img2.png";
-import img3 from "../../assets/Body/img3.png";
-import img4 from "../../assets/Body/img4.png";
+import img1 from "../../assets/Body/img1.webp";
+import img2 from "../../assets/Body/img2.webp";
+import img3 from "../../assets/Body/img3.webp";
+import img4 from "../../assets/Body/img4.webp";
 
 function Body() {
   const promoCards = [
@@ -26,7 +26,7 @@ function Body() {
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
       {/* Promo Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
         {promoCards.map((card, index) => (
           <div
             key={index}
@@ -36,6 +36,9 @@ function Body() {
               src={card.image}
               alt={card.alt}
               className="w-full h-full object-cover"
+              loading="lazy"
+              width="600"
+              height="300"
             />
           </div>
         ))}

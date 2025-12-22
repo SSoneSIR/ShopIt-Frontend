@@ -1,8 +1,8 @@
 // Import category card images
-import DailyGroceries from "../assets/ProductCategoryCards/DailyGroceries.png";
-import TechAndAccessories from "../assets/ProductCategoryCards/TechAndAccessories.png";
-import SnacksAndFastFood from "../assets/ProductCategoryCards/SnacksAndFastFood.png";
-import LiqoursAndSmokes from "../assets/ProductCategoryCards/LiqoursAndSmokes.png";
+import DailyGroceries from "../assets/ProductCategoryCards/dailygrocries.webp";
+import TechAndAccessories from "../assets/ProductCategoryCards/techand accessories.webp";
+import SnacksAndFastFood from "../assets/ProductCategoryCards/snacks and fastfood.webp";
+import LiqoursAndSmokes from "../assets/ProductCategoryCards/LiqoursAndSmokes.webp";
 
 export interface Category {
   name: string;
@@ -14,22 +14,22 @@ export const popularCategories: Category[] = [
   {
     name: "Daily Grocery's",
     images: [DailyGroceries],
-    bgColor: "bg-emerald-400",
+    bgColor: "bg-emerald-100",
   },
   {
     name: "Technology & Accessories",
     images: [TechAndAccessories],
-    bgColor: "bg-slate-200",
+    bgColor: "bg-gray-200",
   },
   {
     name: "Snacks & FastFood",
     images: [SnacksAndFastFood],
-    bgColor: "bg-amber-300",
+    bgColor: "bg-orange-100",
   },
   {
     name: "Liquors & Smokes",
     images: [LiqoursAndSmokes],
-    bgColor: "bg-orange-100",
+    bgColor: "bg-pink-100",
   },
 ];
 

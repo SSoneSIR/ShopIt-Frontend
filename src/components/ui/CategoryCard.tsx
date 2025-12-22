@@ -38,8 +38,7 @@ const CategoryCard = ({
             alt={`${name}-${idx}`}
             className="object-contain max-h-full w-auto drop-shadow-product"
             style={{
-              marginLeft:
-                idx > 0 ? (window.innerWidth < 768 ? "-12px" : "-20px") : "0",
+              marginLeft: idx > 0 ? "-12px" : "0",
               zIndex: images.length - idx,
             }}
           />

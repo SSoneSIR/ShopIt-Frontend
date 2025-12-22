@@ -27,7 +27,7 @@ export default function CategoriesDropdown({
     <div className="relative flex-shrink-0" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center cursor-pointer gap-2 px-4 py-2.5 bg-white border border-gray-300 rounded-full hover:bg-gray-50 transition-colors text-sm font-medium text-gray-700"
+        className="flex items-center cursor-pointer gap-2 px-4 py-2.5 bg-white border border-gray-200 rounded-full hover:bg-gray-50 transition-colors text-sm font-medium text-gray-700"
       >
         <Package className="w-4 h-4" />
         Categories
@@ -54,4 +54,3 @@ export default function CategoriesDropdown({
     </div>
   );
 }
-

@@ -1,9 +1,44 @@
 import { useState, useEffect } from "react";
-import { User, Lock, ChevronLeft } from "lucide-react";
+import { User, Lock, ChevronLeft, PersonStanding, Truck } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 // Import your background image
-import LoginImage from "../../assets/Login/LoginImage.png";
-import logoImage from "../../assets/Logo/logo.png";
+import LoginImage from "../../assets/Login/LoginImage.webp";
+import logoImage from "../../assets/Logo/logo.webp";
+import rightImage from "../../assets/Login/splitscreen bg img login.png";
+// Auth Layout Component for Signup Flow (Split Screen)
+const SignupLayout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="min-h-screen flex flex-col md:flex-row bg-white items-center justify-center">
+      <div className="flex w-full max-w-6xl">
+        {/* Left side */}
+        <div className="w-full md:w-2/5 flex items-center justify-center p-2">
+          <div className="w-full max-w-md">{children}</div>
+        </div>
+
+        {/* Right side */}
+        <div className="hidden md:flex w-3/5 items-center justify-center p-2">
+          <div
+            className="w-full max-w-3xl h-[85vh] rounded-3xl bg-cover bg-center border border-gray-100"
+            style={{
+              backgroundImage: `url(${rightImage})`,
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Auth Layout Component for Login Flow (Centered)
+const LoginLayout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
+      <div className="w-full max-w-md border border-gray-200 rounded-2xl shadow-lg bg-white p-6 md:p-8">
+        {children}
+      </div>
+    </div>
+  );
+};
 
 export default function LoginPage() {
   const [step, setStep] = useState<
@@ -110,56 +145,63 @@ export default function LoginPage() {
   // Initial Screen
   if (step === "initial") {
     return (
-      <div
-        className="min-h-screen flex items-center justify-center p-4 relative"
-        style={{
-          backgroundImage: `url(${LoginImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="absolute inset-0 bg-black/40"></div>
-        <div className="relative z-10 w-full max-w-md flex flex-col items-center">
-          <div className="text-center mb-12">
-            <img
-              src={logoImage}
-              alt="Shopit Logo"
-              className="h-40 w-96 cursor-pointer object-contain"
-            />
+      <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
+        {/* Background image covering entire screen */}
+        <div
+          className="absolute bg-cover bg-center z-0  inset-0 bg-black/0"
+          style={{
+            backgroundImage: `url(${LoginImage})`,
+          }}
+        />
 
-            <h2 className="text-3xl font-bold text-green-500 mb-1 whitespace-nowrap">
-              Delivered Today!!!
-            </h2>
+        {/* Content centered on top of background */}
+        <div className="relative z-10 w-full max-w-md  p-8 rounded-2xl shadow-lg">
+          <div className="flex flex-col items-center">
+            <div className="text-center mb-8">
+              <img
+                src={logoImage}
+                alt="Shopit Logo"
+                className="h-12 w-68 cursor-pointer object-contain mx-auto"
+              />
+            </div>
+
+            <div className="flex flex-col items-center space-y-1 w-full mt-4">
+              <h2 className="text-3xl font-semibold text-green-500 mb-3 whitespace-nowrap">
+                Delivered Today!!!
+              </h2>
+              <div />
+              <div className="space-y-3">
+                <button
+                  onClick={handleCreateAccount}
+                  className="w-full bg-green-600 cursor-pointer hover:bg-green-700 text-white font-medium py-4 px-8 rounded-2xl transition-colors text-base whitespace-nowrap "
+                >
+                  Create an Account
+                </button>
+                <button className="w-full bg-white cursor-pointer hover:bg-gray-50 text-green-600 font-medium py-4 px-8 rounded-2xl transition-colors text-base whitespace-nowrap ">
+                  I have an Account
+                </button>
+                <a
+                  href="/"
+                  className="bg-transparent cursor-pointer text-green-600 font-medium py-4 px-8 rounded-lg transition-colors flex items-center justify-center gap-2 text-base whitespace-nowrap "
+                >
+                  <PersonStanding className="w-5 h-5" />
+                  Continue as a guest
+                </a>
+              </div>
+            </div>
+            <p className="text-center text-xs text-gray-300 mt-6">
+              By signing up, you agree to our{" "}
+              <a href="#" className="text-green-500 hover:underline">
+                Terms
+              </a>
+              .<br />
+              See how we use our data in our{" "}
+              <a href="#" className="text-green-500 hover:underline">
+                Privacy Policy
+              </a>
+              .
+            </p>
           </div>
-          <div className="flex flex-col items-center space-y-3 w-auto">
-            <button
-              onClick={handleCreateAccount}
-              className="bg-green-500 cursor-pointer hover:bg-green-600 text-white font-semibold py-3 px-8 rounded-lg transition-colors text-sm whitespace-nowrap"
-            >
-              Create an Account now
-            </button>
-            <button className="bg-white cursor-pointer hover:bg-gray-50 text-green-600 font-semibold py-3 px-8 rounded-lg transition-colors text-sm whitespace-nowrap">
-              Already Have an Account
-            </button>
-            <a
-              href="/"
-              className="bg-transparent cursor-pointer text-green-500 hover:bg-green-500/10 font-medium py-2.5 px-8 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm whitespace-nowrap"
-            >
-              Continue as a guest
-            </a>
-          </div>
-          <p className="text-center text-xs text-gray-300 mt-5">
-            By signing up, you agree to our{" "}
-            <a href="#" className="text-green-500 hover:underline">
-              Terms
-            </a>
-            .<br />
-            See how we use our data in our{" "}
-            <a href="#" className="text-green-500 hover:underline">
-              Privacy Policy
-            </a>
-            .
-          </p>
         </div>
       </div>
     );
@@ -168,265 +210,233 @@ export default function LoginPage() {
   // Sign Up Screen
   if (step === "signup") {
     return (
-      <div
-        className="min-h-screen flex items-center justify-center p-4 relative"
-        style={{
-          backgroundImage: `url(${LoginImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="absolute inset-0 bg-black/60"></div>
-        <div className="relative z-10 w-full max-w-lg flex items-center justify-center gap-8">
-          {/* Left side - Form Card */}
-          <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl w-full max-w-md">
-            <button
-              onClick={handleBack}
-              className="mb-4 text-gray-600 hover:text-gray-800"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
+      <SignupLayout>
+        <div className="w-full">
+          <div className="flex-shrink-0 mb-10">
+            <Link to="/">
+              <img
+                src={logoImage}
+                alt="Shopit Logo"
+                className="h-16 w-48 cursor-pointer object-contain"
+              />
+            </Link>
+          </div>
+          <button
+            onClick={handleBack}
+            className="mb-4 text-gray-600 hover:text-gray-800 cursor-pointer"
+          >
+            <ChevronLeft className="w-8 h-8 text-green-500 border border-gray-100 shadow-md bg-white rounded-md" />
+          </button>
+          <h2 className="text-2xl font-bold mb-2 text-left">
+            Let's Get You Set for{" "}
+            <span className="text-green-600">Instant Shopping!</span>
+          </h2>
+          <p className="text-gray-600 text-sm mb-8 text-left">
+            It just takes a minute — faster than our delivery time.
+          </p>
 
-            <div className="flex-shrink-0">
-              <Link to="/">
-                <img
-                  src={logoImage}
-                  alt="Shopit Logo"
-                  className="h-1/2 w-1/2 justify-center cursor-pointer object-contain mx-auto"
-                />
-              </Link>
+          <div className="space-y-4">
+            <div className="relative">
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 border border-gray-300 rounded-2xl" />
+              <input
+                type="text"
+                placeholder="Full Name"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                className="w-full pl-12 pr-4 py-3 border-b border-gray-300  focus:outline-none  text-base"
+              />
             </div>
-
-            <h2 className="text-xl font-bold mb-1">
-              Let's Get You Set for{" "}
-              <span className="text-green-600">Instant Shopping!</span>
-            </h2>
-            <p className="text-gray-600 text-xs mb-6">
-              It just takes a minute — faster than our delivery time.
-            </p>
-
-            <div className="space-y-3">
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-                <input
-                  type="text"
-                  placeholder="Full Name"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+            <div className="relative  gap-2">
+              <div className="flex items-center gap-2 px-3 py-3 border-b bg-white border-gray-300">
+                <img
+                  src="https://flagcdn.com/w40/np.png"
+                  alt="Nepal"
+                  className="w-6 h-4"
                 />
-              </div>
-              <div className="relative flex gap-2">
-                <div className="flex items-center gap-2 px-3 py-2.5 border border-gray-300 rounded-lg bg-gray-50">
-                  <img
-                    src="https://flagcdn.com/w40/np.png"
-                    alt="Nepal"
-                    className="w-5 h-4"
-                  />
-                  <span className="text-sm font-medium">+977</span>
-                </div>
+                <span className="text-base font-medium">+977</span>{" "}
                 <input
                   type="tel"
                   placeholder="XXXXXXXX"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+                  className="w-full flex-1 px-4 py-3 rounded-lg focus:outline-none  text-base"
                 />
               </div>
             </div>
-
-            <button
-              onClick={handleSignupSubmit}
-              className="w-full mt-6 bg-green-600 cursor-pointer hover:bg-green-700 text-white font-semibold py-2.5 rounded-lg transition-colors text-sm"
-            >
-              Continue
-            </button>
           </div>
+
+          <button
+            onClick={handleSignupSubmit}
+            className="bg-green-600 hover:bg-green-700 cursor-pointer mt-6 text-white font-semibold py-3 px-32 rounded-3xl transition-colors mb-4  mx-auto block"
+          >
+            Continue
+          </button>
         </div>
-      </div>
+      </SignupLayout>
     );
   }
 
   // OTP Screen
   if (step === "otp") {
     return (
-      <div
-        className="min-h-screen flex items-center justify-center p-4 relative"
-        style={{
-          backgroundImage: `url(${LoginImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="absolute inset-0 bg-black/60"></div>
-        <div className="relative z-10 w-full max-w-lg flex items-center justify-center">
-          <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl w-full max-w-md">
-            <button
-              onClick={handleBack}
-              className="mb-4 text-gray-600 hover:text-gray-800"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-
-            <div className="flex-shrink-0">
-              <Link to="/">
-                <img
-                  src={logoImage}
-                  alt="Shopit Logo"
-                  className="h-1/2 w-1/2 justify-center cursor-pointer object-contain mx-auto"
-                />
-              </Link>
-            </div>
-
-            <h2 className="text-xl font-bold mb-1">
-              You're Just Some Steps Away{" "}
-              <span className="text-green-600">Verify to Join In!</span>
-            </h2>
-            <p className="text-gray-600 text-xs mb-6">
-              It just takes a minute — faster than our delivery time.
-            </p>
-
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Enter 6-digit OTP"
-                value={otp}
-                onChange={(e) =>
-                  setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))
-                }
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-center text-xl tracking-widest"
-                maxLength={6}
+      <SignupLayout>
+        <div className="w-full">
+          <div className="flex-shrink-0 mb-10">
+            <Link to="/">
+              <img
+                src={logoImage}
+                alt="Shopit Logo"
+                className="h-16 w-48 cursor-pointer object-contain"
               />
-            </div>
-
-            <div className="mt-4 text-center text-xs">
-              {countdown > 0 ? (
-                <p className="text-gray-600">
-                  Didn't Receive the code?{" "}
-                  <span className="text-green-600 font-medium">
-                    Resend in 00:{countdown.toString().padStart(2, "0")}
-                  </span>
-                </p>
-              ) : (
-                <button
-                  onClick={resendOtp}
-                  className="text-green-600 font-medium hover:underline"
-                >
-                  Resend OTP
-                </button>
-              )}
-            </div>
-
-            <button
-              onClick={handleOtpSubmit}
-              className="w-full mt-6 bg-green-600 cursor-pointer hover:bg-green-700 text-white font-semibold py-2.5 rounded-lg transition-colors text-sm"
-            >
-              Continue
-            </button>
+            </Link>
           </div>
+          <button
+            onClick={handleBack}
+            className="mb-4 text-gray-600 hover:text-gray-800 cursor-pointer"
+          >
+            <ChevronLeft className="w-8 h-8 text-green-500 border border-gray-100 shadow-md bg-white rounded-md" />
+          </button>
+
+          <h2 className="text-2xl font-bold mb-2 text-left">
+            You're Just Some Steps Away <br />
+            <span className="text-green-600">Verify to Join In!</span>
+          </h2>
+          <p className="text-gray-600 text-sm mb-8 text-left">
+            It just takes a minute — faster than our delivery time.
+          </p>
+
+          <div className="relative mb-6">
+            <input
+              type="text"
+              placeholder="Enter 6-digit OTP"
+              value={otp}
+              onChange={(e) =>
+                setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))
+              }
+              className="w-full px-4 py-3 border-b border-gray-300  focus:outline-none   text-center text-2xl tracking-widest"
+              maxLength={6}
+            />
+          </div>
+
+          <div className="mb-8 text-center text-sm">
+            {countdown > 0 ? (
+              <p className="text-gray-600">
+                Didn't Receive the code?{" "}
+                <span className="text-green-600 font-medium">
+                  Resend in 00:{countdown.toString().padStart(2, "0")}
+                </span>
+              </p>
+            ) : (
+              <button
+                onClick={resendOtp}
+                className="text-green-600 font-medium hover:underline cursor-pointer"
+              >
+                Resend OTP
+              </button>
+            )}
+          </div>
+
+          <button
+            onClick={handleOtpSubmit}
+            className="bg-green-600 hover:bg-green-700 cursor-pointer mt-6 text-white font-semibold py-3 px-32 rounded-3xl transition-colors mb-4  mx-auto block"
+          >
+            Continue
+          </button>
         </div>
-      </div>
+      </SignupLayout>
     );
   }
 
   // Password Screen
   if (step === "password") {
     return (
-      <div
-        className="min-h-screen flex items-center justify-center p-4 relative"
-        style={{
-          backgroundImage: `url(${LoginImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="absolute inset-0 bg-black/60"></div>
-        <div className="relative z-10 w-full max-w-lg flex items-center justify-center">
-          <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl w-full max-w-md">
-            <button
-              onClick={handleBack}
-              className="mb-4 text-gray-600 hover:text-gray-800"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <div className="flex-shrink-0">
-              <Link to="/">
-                <img
-                  src={logoImage}
-                  alt="Shopit Logo"
-                  className="h-1/2 w-1/2 justify-center cursor-pointer object-contain mx-auto"
-                />
-              </Link>
-            </div>
-
-            <h2 className="text-xl font-bold mb-1">
-              Let's Get You Set for{" "}
-              <span className="text-green-600">Instant Shopping!</span>
-            </h2>
-            <p className="text-gray-600 text-xs mb-6">
-              It just takes a minute — faster than our delivery time.
-            </p>
-
-            <div className="space-y-3">
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-                <input
-                  type="password"
-                  placeholder="Set a strong Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
-                />
-              </div>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-                <input
-                  type="password"
-                  placeholder="Confirm Password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
-                />
-              </div>
-            </div>
-
-            <button
-              onClick={handlePasswordSubmit}
-              className="w-full mt-6 bg-green-600 cursor-pointer hover:bg-green-700 text-white font-semibold py-2.5 rounded-lg transition-colors text-sm"
-            >
-              Continue
-            </button>
+      <SignupLayout>
+        <div className="w-full">
+          <div className="flex-shrink-0 mb-10">
+            <Link to="/">
+              <img
+                src={logoImage}
+                alt="Shopit Logo"
+                className="h-16 w-48 cursor-pointer object-contain"
+              />
+            </Link>
           </div>
+          <button
+            onClick={handleBack}
+            className="mb-4 text-gray-600 hover:text-gray-800 cursor-pointer"
+          >
+            <ChevronLeft className="w-8 h-8 text-green-500 border border-gray-100 shadow-md bg-white rounded-md" />
+          </button>
+          <h2 className="text-2xl font-bold mb-2 text-left">
+            Let's Get You Set for{" "}
+            <span className="text-green-600">Instant Shopping!</span>
+          </h2>
+          <p className="text-gray-600 text-sm mb-8 text-left">
+            It just takes a minute — faster than our delivery time.
+          </p>
+
+          <div className="space-y-4">
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="password"
+                placeholder="Set a strong Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full pl-12 pr-4 py-3 border-b border-gray-300  focus:outline-none  text-base"
+              />
+            </div>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full pl-12 pr-4 py-3 border-b border-gray-300  focus:outline-none  text-base"
+              />
+            </div>
+          </div>
+
+          <button
+            onClick={handlePasswordSubmit}
+            className="bg-green-600 hover:bg-green-700 cursor-pointer mt-6 text-white font-semibold py-3 px-32 rounded-3xl transition-colors mb-4  mx-auto block"
+          >
+            Continue
+          </button>
         </div>
-      </div>
+      </SignupLayout>
     );
   }
 
   // Location Screen
   if (step === "location") {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center p-4">
-        <div className="text-center max-w-md w-full">
-          <div className="flex items-center justify-center gap-3 mb-12">
-            <img
-              src={logoImage}
-              alt="Shopit Logo"
-              className="h-40 w-96 object-contain"
-            />
+      <div className="min-h-screen flex items-center justify-center p-4 bg-white">
+        <div className="w-full max-w-md">
+          <div className="flex justify-center mb-14">
+            <Link to="/">
+              <img
+                src={logoImage}
+                alt="Shopit Logo"
+                className="h-16 w-38 cursor-pointer object-contain"
+              />
+            </Link>
           </div>
-          <h2 className="text-3xl font-bold mb-2">
+
+          <h2 className="text-3xl font-semibold mb-4 text-center">
             <span className="text-green-600">Set Your Location,</span>
             <br />
             We'll Deliver in a Day!!!
           </h2>
-          <p className="text-gray-600 text-sm mb-8">
+          <p className="text-gray-900 text-base mb-10 text-center">
             We deliver fast — just tell us where to stop.
           </p>
 
           <button
             onClick={handleSetLocation}
             disabled={isGettingLocation}
-            className={`bg-green-600 hover:bg-green-700 cursor-pointer text-white font-semibold py-3 px-12 rounded-lg transition-colors mb-4 ${
+            className={` bg-green-600 hover:bg-green-700 cursor-pointer text-white font-semibold py-3 px-32 rounded-3xl transition-colors mb-4  mx-auto block ${
               isGettingLocation ? "opacity-70 cursor-wait" : ""
             }`}
           >
@@ -435,7 +445,7 @@ export default function LoginPage() {
           <button
             onClick={handleLocationSubmit}
             disabled={isGettingLocation}
-            className="block mx-auto text-green-600 hover:underline text-sm cursor-pointer"
+            className="block mx-auto text-green-600 hover:underline text-base cursor-pointer"
           >
             I'll do it later
           </button>
@@ -447,15 +457,19 @@ export default function LoginPage() {
   // Loading Screen
   if (step === "loading") {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center p-4">
-        <div className="text-center">
-          <div className="flex items-center justify-center gap-3 mb-16">
-            <img
-              src={logoImage}
-              alt="Shopit Logo"
-              className="h-40 w-96 object-contain"
-            />
+      <div className="min-h-screen flex items-center justify-center p-4 bg-white">
+        <div className="w-full max-w-md">
+          {/* Top area with delivery truck icon and app name */}
+          <div className="flex justify-center mb-16">
+            <Link to="/">
+              <img
+                src={logoImage}
+                alt="Shopit Logo"
+                className="h-16 w-38 cursor-pointer object-contain"
+              />
+            </Link>
           </div>
+
           <div className="flex gap-3 justify-center mb-8">
             {[0, 1, 2].map((i) => (
               <div
@@ -468,7 +482,7 @@ export default function LoginPage() {
               />
             ))}
           </div>
-          <div className="w-64 h-2 bg-gray-200 rounded-full overflow-hidden mx-auto mb-6">
+          <div className="mx-auto block h-2 justify-center bg-gray-200 rounded-full overflow-hidden mb-8">
             <div
               className="h-full bg-gradient-to-r from-gray-400 to-gray-500 rounded-full animate-pulse"
               style={{
@@ -477,10 +491,12 @@ export default function LoginPage() {
             />
           </div>
 
-          <p className="text-gray-700 font-semibold text-lg">
+          <p className="text-gray-700 font-semibold text-xl text-center">
             Setting Up Your Account...
           </p>
-          <p className="text-gray-500 text-sm mt-2">Please wait a moment</p>
+          <p className="text-gray-500 text-base mt-2 text-center">
+            Please wait a moment
+          </p>
 
           <style>{`
             @keyframes slideRight {

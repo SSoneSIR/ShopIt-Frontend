@@ -34,7 +34,7 @@ const CategoryTabs = ({
         <button
           key={category}
           onClick={() => onCategoryChange(category)}
-          className={`flex items-center cursor-pointer gap-1.5 px-4 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 ${
+          className={`flex items-center border border-white bg-white shadow-sm cursor-pointer gap-1.5 px-4 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 ${
             activeCategory === category
               ? "bg-yellow-100 text-foreground shadow-md scale-105"
               : "bg-muted text-muted-foreground hover:bg-muted/80 hover:scale-102"

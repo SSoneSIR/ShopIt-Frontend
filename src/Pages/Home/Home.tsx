@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Header from "../../components/ui/Header";
 import CategoryCard from "../../components/ui/CategoryCard";
 import ProductCard from "../../components/ui/ProductCards";
@@ -11,6 +11,8 @@ import { useCart } from "../../contexts/CartContext";
 import { popularCategories, categoryTabs } from "../../data/categories";
 import { allProducts } from "../../data/products";
 import type { Product } from "../../data/products";
+import ProductCardSkeleton from "../../components/ui/ProductCardSkeleton";
+import CategoryCardSkeleton from "../../components/ui/CategoryCardSkeleton";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -29,7 +31,17 @@ export default function HomePage() {
   const [showToast, setShowToast] = useState(false);
   const [lastAddedItem, setLastAddedItem] = useState<string>("");
   const [lastAddedItemImage, setLastAddedItemImage] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(true);
   const lastCartItem = cartItems.find((item) => item.name === lastAddedItem);
+
+  // Simulate loading data
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleProductClick = (product: Product) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -109,14 +121,18 @@ export default function HomePage() {
                   : "grid-cols-2 md:grid-cols-4"
               }`}
             >
-              {popularCategories.map((category) => (
-                <CategoryCard
-                  key={category.name}
-                  {...category}
-                  onClick={() => handleCategoryCardClick(category.name)}
-                  isActive={activeCategoryCard === category.name}
-                />
-              ))}
+              {isLoading
+                ? Array.from({ length: 4 }).map((_, index) => (
+                    <CategoryCardSkeleton key={index} />
+                  ))
+                : popularCategories.map((category) => (
+                    <CategoryCard
+                      key={category.name}
+                      {...category}
+                      onClick={() => handleCategoryCardClick(category.name)}
+                      isActive={activeCategoryCard === category.name}
+                    />
+                  ))}
             </div>
           </div>
 
@@ -171,14 +187,18 @@ export default function HomePage() {
                         : "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
                     }`}
                   >
-                    {categoryProducts.map((product) => (
-                      <ProductCard
-                        key={product.id}
-                        {...product}
-                        onAddToCart={(e) => handleAddToCart(product, e)}
-                        onClick={() => handleProductClick(product)}
-                      />
-                    ))}
+                    {isLoading
+                      ? Array.from({ length: 8 }).map((_, index) => (
+                          <ProductCardSkeleton key={index} />
+                        ))
+                      : categoryProducts.map((product) => (
+                          <ProductCard
+                            key={product.id}
+                            {...product}
+                            onAddToCart={() => handleAddToCart(product)}
+                            onClick={() => handleProductClick(product)}
+                          />
+                        ))}
                   </div>
                 </div>
               );
@@ -192,6 +212,7 @@ export default function HomePage() {
         cartItems={cartItems}
         onUpdateQuantity={handleUpdateQuantity}
         onRemoveItem={handleRemoveItem}
+        isLoading={isLoading}
       />
       <CartToast
         isVisible={showToast}

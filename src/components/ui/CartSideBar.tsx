@@ -1,5 +1,6 @@
 import { ShoppingCart, Trash, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import CartItemSkeleton from "./CartSkeleton";
 
 interface CartItem {
   id: number;
@@ -15,6 +16,7 @@ interface CartSidebarProps {
   cartItems: CartItem[];
   onUpdateQuantity: (id: number, quantity: number) => void;
   onRemoveItem: (id: number) => void;
+  isLoading?: boolean;
 }
 
 export default function CartSidebar({
@@ -23,6 +25,7 @@ export default function CartSidebar({
   cartItems,
   onUpdateQuantity,
   onRemoveItem,
+  isLoading = false,
 }: CartSidebarProps) {
   const navigate = useNavigate();
   const totalPrice = cartItems.reduce(
@@ -44,7 +47,7 @@ export default function CartSidebar({
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        <div className="flex items-center justify-between p-6 ">
           <h2 className="text-lg font-bold text-gray-800">Cart</h2>
           <button
             onClick={onClose}
@@ -56,7 +59,12 @@ export default function CartSidebar({
 
         {/* Items */}
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
-          {cartItems.length > 0 ? (
+          {isLoading ? (
+            // Show skeletons when loading
+            Array.from({ length: 3 }).map((_, index) => (
+              <CartItemSkeleton key={index} />
+            ))
+          ) : cartItems.length > 0 ? (
             cartItems.map((item) => (
               <div
                 key={item.id}

@@ -1,16 +1,19 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Truck, Trash2, BadgePercent, RefreshCw } from "lucide-react";
 import Header from "../../components/ui/Header";
 import CategoryCard from "../../components/ui/CategoryCard";
 import ProductCard from "../../components/ui/ProductCards";
 import { useCart } from "../../contexts/CartContext";
+import CheckoutItemSkeleton from "../../components/checkout/CheckoutItemSkeleton";
+import ProductCardSkeleton from "../../components/ui/ProductCardSkeleton";
+import CategoryCardSkeleton from "../../components/ui/CategoryCardSkeleton";
 
 // Import category card images
-import DailyGroceries from "../../assets/ProductCategoryCards/DailyGroceries.png";
-import TechAndAccessories from "../../assets/ProductCategoryCards/TechAndAccessories.png";
-import SnacksAndFastFood from "../../assets/ProductCategoryCards/SnacksAndFastFood.png";
-import LiqoursAndSmokes from "../../assets/ProductCategoryCards/LiqoursAndSmokes.png";
+import DailyGroceries from "../../assets/ProductCategoryCards/dailygrocries.webp";
+import TechAndAccessories from "../../assets/ProductCategoryCards/techand accessories.webp";
+import SnacksAndFastFood from "../../assets/ProductCategoryCards/snacks and fastfood.webp";
+import LiqoursAndSmokes from "../../assets/ProductCategoryCards/LiqoursAndSmokes.webp";
 
 // Import product data
 import { allProducts } from "../../data/products";
@@ -40,12 +43,32 @@ const popularCategories = [
 
 export default function Checkout() {
   const navigate = useNavigate();
-  const { cartItems, handleUpdateQuantity, handleRemoveItem, cartCount } =
-    useCart();
+  const {
+    cartItems,
+    handleAddToCart,
+    handleUpdateQuantity,
+    handleRemoveItem,
+    cartCount,
+  } = useCart();
+
+  // Debugging - log cart items whenever they change
+  React.useEffect(() => {
+    console.log("Cart items updated:", cartItems);
+  }, [cartItems]);
 
   const [promoCode, setPromoCode] = useState("");
   const [isCouponApplied, setIsCouponApplied] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate loading data
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Mock user data - in real app, this would come from auth context
   const userName = "Your Name";
@@ -163,7 +186,12 @@ export default function Checkout() {
           <div>
             <h2 className="text-lg font-bold text-gray-900 mb-3">Cart Items</h2>
             <div className="space-y-2">
-              {cartItems.length > 0 ? (
+              {isLoading ? (
+                // Show skeletons when loading
+                Array.from({ length: 3 }).map((_, index) => (
+                  <CheckoutItemSkeleton key={index} />
+                ))
+              ) : cartItems.length > 0 ? (
                 cartItems.map((item) => (
                   <div
                     key={item.id}
@@ -338,42 +366,45 @@ export default function Checkout() {
             </button>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            {popularCategories.map((category) => (
-              <CategoryCard
-                key={category.name}
-                {...category}
-                onClick={() =>
-                  setSelectedCategory(
-                    selectedCategory === category.name ? null : category.name
-                  )
-                }
-                isActive={selectedCategory === category.name}
-              />
-            ))}
+            {isLoading
+              ? Array.from({ length: 4 }).map((_, index) => (
+                  <CategoryCardSkeleton key={index} />
+                ))
+              : popularCategories.map((category) => (
+                  <CategoryCard
+                    key={category.name}
+                    {...category}
+                    onClick={() =>
+                      setSelectedCategory(
+                        selectedCategory === category.name
+                          ? null
+                          : category.name
+                      )
+                    }
+                    isActive={selectedCategory === category.name}
+                  />
+                ))}
           </div>
         </div>
 
         {/* Products Display Section */}
-        {selectedCategory && filteredProducts.length > 0 && (
+        {selectedCategory && (
           <div className="mb-8">
             <h2 className="text-xl font-bold text-gray-900 mb-4">
               {selectedCategory} Products
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {filteredProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  {...product}
-                  onAddToCart={(e) => {
-                    e?.stopPropagation();
-                    handleUpdateQuantity(
-                      product.id,
-                      (cartItems.find((item) => item.id === product.id)
-                        ?.quantity || 0) + 1
-                    );
-                  }}
-                />
-              ))}
+              {isLoading
+                ? Array.from({ length: 8 }).map((_, index) => (
+                    <ProductCardSkeleton key={index} />
+                  ))
+                : filteredProducts.map((product) => (
+                    <ProductCard
+                      key={product.id}
+                      {...product}
+                      onAddToCart={() => handleAddToCart(product)}
+                    />
+                  ))}
             </div>
           </div>
         )}

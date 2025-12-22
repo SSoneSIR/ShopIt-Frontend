@@ -80,7 +80,7 @@ export default function CartToast({
         isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
       }`}
     >
-      <div className="bg-white rounded-lg shadow-xl border border-gray-200 p-4 flex items-center gap-4 min-w-[400px] max-w-md">
+      <div className=" bg-white border rounded-3xl border-green-600 p-4 flex items-center gap-4 min-w-[400px] max-w-md">
         {/* Product Image */}
         <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
           <img
@@ -96,7 +96,7 @@ export default function CartToast({
             <p className="text-sm font-semibold text-gray-900">Added to cart</p>
           </div>
           <p className="text-xs text-gray-600 line-clamp-1 mb-1">{itemName}</p>
-          <p className="text-sm font-bold text-gray-900 mb-2">
+          <p className="text-sm font-bold text-green-600 mb-2">
             Rs. {itemPrice * currentQuantity}
           </p>
 
@@ -131,9 +131,9 @@ export default function CartToast({
         {/* View Cart Button */}
         <button
           onClick={onViewCart}
-          className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors whitespace-nowrap cursor-pointer"
+          className="bg-green-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-green-700 transition-colors whitespace-nowrap cursor-pointer"
         >
-          View Cart
+          Go to Cart
         </button>
 
         {/* Close Button */}

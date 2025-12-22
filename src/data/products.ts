@@ -1,12 +1,12 @@
 // Import product images
-import ChickenSoup from "../assets/Products/2pmChickenSoup.png";
-import CurrentSpicy from "../assets/Products/CurrentSpicy.png";
-import TablePort from "../assets/Products/TablePort.png";
-import ChickenSoupBox from "../assets/Products/ChickenBox.png";
-import RedOnion from "../assets/Products/RedOnion.png";
-import AchariSticks from "../assets/Products/CurrentAchariSticks.png";
-import GreenPeas from "../assets/Products/GreenPeas.png";
-import Cabbage from "../assets/Products/Cabbage.png";
+import ChickenSoup from "../assets/Products/2pmChickenSoup.webp";
+import CurrentSpicy from "../assets/Products/CurrentSpicy.webp";
+import TablePort from "../assets/Products/TablePort.webp";
+import ChickenSoupBox from "../assets/Products/ChickenBox.webp";
+import RedOnion from "../assets/Products/RedOnion.webp";
+import AchariSticks from "../assets/Products/CurrentAchariSticks.webp";
+import GreenPeas from "../assets/Products/GreenPeas.webp";
+import Cabbage from "../assets/Products/Cabbage.webp";
 
 export interface Product {
   id: number;
