@@ -13,6 +13,13 @@ import { allProducts } from "../../data/products";
 import type { Product } from "../../data/products";
 import ProductCardSkeleton from "../../components/skeletons/ProductCardSkeleton";
 import CategoryCardSkeleton from "../../components/skeletons/CategoryCardSkeleton";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -115,8 +122,38 @@ export default function HomePage() {
                 See All
               </button>
             </div>
+
+            {/* Carousel for Mobile */}
+            <div className="md:hidden">
+              <Carousel className="w-full">
+                <CarouselContent>
+                  {isLoading
+                    ? Array.from({ length: 4 }).map((_, index) => (
+                        <CarouselItem
+                          key={index}
+                          className="text-foreground font-bold"
+                        >
+                          <CategoryCardSkeleton />
+                        </CarouselItem>
+                      ))
+                    : popularCategories.map((category) => (
+                        <CarouselItem key={category.name}>
+                          <CategoryCard
+                            {...category}
+                            onClick={() =>
+                              handleCategoryCardClick(category.name)
+                            }
+                            isActive={activeCategoryCard === category.name}
+                          />
+                        </CarouselItem>
+                      ))}
+                </CarouselContent>
+              </Carousel>
+            </div>
+
+            {/* Grid for Desktop */}
             <div
-              className={`grid gap-4 transition-all duration-300 ${
+              className={`hidden md:grid gap-4 transition-all duration-300 ${
                 isCartOpen
                   ? "grid-cols-2 lg:grid-cols-2 xl:grid-cols-3"
                   : "grid-cols-2 md:grid-cols-4"

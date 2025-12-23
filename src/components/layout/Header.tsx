@@ -106,12 +106,12 @@ export default function Header({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [recentSearches, setRecentSearches] = useState([
-    "Current Noodles",
-    "Eggplant",
-    "Wai Wai",
-    "2pm Soupbase",
-  ]);
+  const [recentSearches, setRecentSearches] = useState(() => {
+    const savedSearches = localStorage.getItem("recentSearches");
+    return savedSearches
+      ? JSON.parse(savedSearches)
+      : ["Current Noodles", "Eggplant", "Wai Wai", "2pm Soupbase"];
+  });
   const searchResultsRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -160,20 +160,24 @@ export default function Header({
   };
 
   const handleRemoveRecent = (search: string) => {
-    setRecentSearches(recentSearches.filter((s) => s !== search));
+    const updatedSearches = recentSearches.filter((s) => s !== search);
+    setRecentSearches(updatedSearches);
+    localStorage.setItem("recentSearches", JSON.stringify(updatedSearches));
   };
 
   const clearAllRecent = () => {
     setRecentSearches([]);
+    localStorage.setItem("recentSearches", JSON.stringify([]));
   };
 
   const handleSearchClick = (search: string) => {
     setSearchQuery(search);
     if (!recentSearches.includes(search)) {
-      setRecentSearches([search, ...recentSearches].slice(0, 6));
+      const updatedSearches = [search, ...recentSearches].slice(0, 6);
+      setRecentSearches(updatedSearches);
+      localStorage.setItem("recentSearches", JSON.stringify(updatedSearches));
     }
-    // Submit the search
-    handleSearchSubmit(search);
+    // Only populate search bar, don't navigate
   };
 
   const handleAddToCart = (product: Product) => {
@@ -371,7 +375,7 @@ export default function Header({
                       <button
                         key={search}
                         onClick={() => handleSearchClick(search)}
-                        className="bg-gray-200 cursor-pointer rounded-full px-3 py-1.5 text-sm text-gray-700  transition-colors"
+                        className="bg-gray-200 cursor-pointer rounded-full px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-300 transition-colors"
                       >
                         {search}
                       </button>
@@ -465,7 +469,7 @@ export default function Header({
 
           {/* Mobile Header (below md) */}
           <div className="md:hidden">
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center justify-between gap-2 mb-2">
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="p-2 hover:bg-gray-50 rounded-lg transition-colors"
@@ -478,16 +482,15 @@ export default function Header({
               </button>
 
               <div className="flex-grow flex justify-center">
-                <Logo className="h-10 sm:h-12 w-auto" />
+                <Logo className="h-8 w-auto" />
               </div>
 
-              <div className="flex items-center gap-1 sm:gap-2">
+              <div className="flex items-center gap-1">
                 <CartButton cartCount={cartCount} onClick={onCartClick} />
                 <LoginButton />
               </div>
             </div>
-
-            <div className="mt-2 sm:mt-3 flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <SearchBar
                 className="flex-grow"
                 isFocused={false}
@@ -496,7 +499,7 @@ export default function Header({
                 onSubmit={handleSearchSubmit}
               />
               <button className="p-2 hover:bg-gray-50 rounded-full transition-colors border border-gray-300 bg-white flex-shrink-0">
-                <MapPin className="w-5 sm:w-6 h-5 sm:h-6 text-green-600" />
+                <MapPin className="w-5 h-5 text-green-600" />
               </button>
             </div>
           </div>

@@ -80,9 +80,9 @@ export default function CartToast({
         isVisible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
       }`}
     >
-      <div className=" bg-white border rounded-3xl border-green-600 p-4 flex items-center gap-4 min-w-[400px] max-w-md">
+      <div className="bg-white border rounded-3xl border-green-600 p-3 flex flex-col sm:flex-row items-center gap-3 min-w-[300px] max-w-[90vw] w-auto sm:w-[400px]">
         {/* Product Image */}
-        <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
+        <div className="w-14 h-14 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
           <img
             src={itemImage}
             alt={itemName}
@@ -91,12 +91,14 @@ export default function CartToast({
         </div>
 
         {/* Content */}
-        <div className="flex-1">
+        <div className="flex-1 w-full">
           <div className="flex items-center gap-2 mb-1">
-            <p className="text-sm font-semibold text-gray-900">Added to cart</p>
+            <p className="text-xs sm:text-sm font-semibold text-gray-900">
+              Added to cart
+            </p>
           </div>
           <p className="text-xs text-gray-600 line-clamp-1 mb-1">{itemName}</p>
-          <p className="text-sm font-bold text-green-600 mb-2">
+          <p className="text-xs sm:text-sm font-bold text-green-600 mb-2">
             Rs. {itemPrice * currentQuantity}
           </p>
 
@@ -105,16 +107,16 @@ export default function CartToast({
             <button
               onClick={() => handleQuantityChange(currentQuantity - 1)}
               disabled={currentQuantity <= 1}
-              className="w-8 h-8 rounded-full bg-green-600 hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold flex items-center justify-center transition-colors cursor-pointer text-lg"
+              className="w-7 h-7 rounded-full bg-green-600 hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold flex items-center justify-center transition-colors cursor-pointer text-sm"
             >
               −
             </button>
-            <div className="px-4 py-1 bg-gray-100 rounded-lg font-semibold text-gray-900 text-sm min-w-[3rem] text-center">
+            <div className="px-3 py-1 bg-gray-100 rounded-lg font-semibold text-gray-900 text-xs sm:text-sm min-w-[2.5rem] text-center">
               {currentQuantity}
             </div>
             <button
               onClick={() => handleQuantityChange(currentQuantity + 1)}
-              className="w-8 h-8 rounded-full bg-green-600 hover:bg-green-700 text-white font-bold flex items-center justify-center transition-colors cursor-pointer text-lg"
+              className="w-7 h-7 rounded-full bg-green-600 hover:bg-green-700 text-white font-bold flex items-center justify-center transition-colors cursor-pointer text-sm"
             >
               +
             </button>
@@ -123,26 +125,27 @@ export default function CartToast({
               className="ml-2 text-red-400 hover:text-red-600 transition-colors cursor-pointer"
               title="Remove from cart"
             >
-              <Trash className="w-5 h-5" />
+              <Trash className="w-4 h-4" />
             </button>
           </div>
         </div>
 
-        {/* View Cart Button */}
-        <button
-          onClick={onViewCart}
-          className="bg-green-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-green-700 transition-colors whitespace-nowrap cursor-pointer"
-        >
-          Go to Cart
-        </button>
+        <div className="flex gap-2 w-full sm:w-auto">
+          <button
+            onClick={onViewCart}
+            className="bg-green-600 text-white px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold hover:bg-green-700 transition-colors whitespace-nowrap cursor-pointer flex-1 sm:flex-none"
+          >
+            Go to Cart
+          </button>
 
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
-        >
-          <X className="w-5 h-5" />
-        </button>
+          {/* Close Button */}
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer flex-shrink-0"
+          >
+            <X className="w-4 h-4 sm:w-5 sm:h-5" />
+          </button>
+        </div>
       </div>
     </div>
   );
