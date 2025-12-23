@@ -129,10 +129,7 @@ export default function HomePage() {
                 <CarouselContent>
                   {isLoading
                     ? Array.from({ length: 4 }).map((_, index) => (
-                        <CarouselItem
-                          key={index}
-                          className="text-foreground font-bold"
-                        >
+                        <CarouselItem key={index}>
                           <CategoryCardSkeleton />
                         </CarouselItem>
                       ))

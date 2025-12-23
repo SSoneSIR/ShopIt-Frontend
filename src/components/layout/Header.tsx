@@ -5,7 +5,16 @@ import SearchBar from "./header/SearchBar";
 import LocationSelector from "./header/LocationSelector";
 import CartButton from "./header/CartButton";
 import LoginButton from "./header/LoginButton";
-import { Menu, X, MapPin, Search, Star, Plus } from "lucide-react";
+import {
+  Menu,
+  X,
+  MapPin,
+  Search,
+  Star,
+  Plus,
+  LogIn,
+  ShoppingCart,
+} from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 import { allProducts } from "../../data/products";
@@ -240,6 +249,30 @@ export default function Header({
     };
   }, [isSearchFocused]);
 
+  // Handle click outside to close mobile menu
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isMobileMenuOpen) {
+        const menuButton = document.querySelector(".mobile-menu-button");
+        const menuDropdown = document.querySelector(".mobile-menu-dropdown");
+
+        if (
+          menuButton &&
+          !menuButton.contains(event.target as Node) &&
+          menuDropdown &&
+          !menuDropdown.contains(event.target as Node)
+        ) {
+          setIsMobileMenuOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
+
   // Render search-only mode when focused (desktop only)
   if (isSearchFocused) {
     return (
@@ -467,53 +500,114 @@ export default function Header({
             </div>
           </div>
 
-          {/* Mobile Header (below md) */}
-          <div className="md:hidden">
-            <div className="flex items-center justify-between gap-2 mb-2">
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 hover:bg-gray-50 rounded-lg transition-colors"
-              >
-                {isMobileMenuOpen ? (
-                  <X className="w-5 sm:w-6 h-5 sm:h-6 text-gray-700" />
-                ) : (
-                  <Menu className="w-5 sm:w-6 h-5 sm:h-6 text-gray-700" />
-                )}
-              </button>
-
-              <div className="flex-grow flex justify-center">
-                <Logo className="h-8 w-auto" />
-              </div>
-
-              <div className="flex items-center gap-1">
-                <CartButton cartCount={cartCount} onClick={onCartClick} />
-                <LoginButton />
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <SearchBar
-                className="flex-grow"
-                isFocused={false}
-                onFocus={handleSearchFocus}
-                onClose={handleSearchClose}
-                onSubmit={handleSearchSubmit}
+          {/* Mobile Header (below md) - Single Row */}
+          <div className="md:hidden flex items-center gap-2">
+            {/* Logo on Far Left */}
+            <div className="flex-shrink-0">
+              <Logo
+                onClick={handleLogoClick}
+                className="h-7 w-auto cursor-pointer"
               />
-              <button className="p-2 hover:bg-gray-50 rounded-full transition-colors border border-gray-300 bg-white flex-shrink-0">
-                <MapPin className="w-5 h-5 text-green-600" />
-              </button>
+            </div>
+
+            <div className="flex-grow"></div>
+            <button
+              onClick={() => {
+                handleSearchFocus();
+                setIsMobileMenuOpen(false);
+              }}
+              className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <Search className="w-5 h-5 text-gray-700" />
+              <span className="text-gray-800 font-medium"></span>
+            </button>
+            {/* Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 hover:bg-gray-50 rounded-lg transition-colors mobile-menu-button"
+            >
+              <Menu className="w-6 h-6 text-gray-700" />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Menu Sidebar */}
+      <div
+        className={`md:hidden fixed top-0 right-0 h-full w-72 bg-white shadow-lg z-50 flex flex-col transition-transform duration-300 ease-in-out border-l border-gray-200 ${
+          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b border-gray-50">
+          <h2 className="text-lg font-bold text-gray-800">Menu</h2>
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="text-gray-500 hover:text-gray-800 transition-colors p-2 hover:bg-gray-100 rounded-full"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Menu Items */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+          {/* Cart */}
+          <button
+            onClick={() => {
+              if (onCartClick) onCartClick();
+              setIsMobileMenuOpen(false);
+            }}
+            className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors relative"
+          >
+            <ShoppingCart className="w-5 h-5 text-gray-700" />
+            <span className="text-gray-800 font-medium">Cart</span>
+            {cartCount > 0 && (
+              <span className="ml-auto bg-green-600 text-white text-xs rounded-full px-2 py-1 font-medium">
+                {cartCount}
+              </span>
+            )}
+          </button>
+
+          {/* Login */}
+          <button
+            onClick={() => {
+              navigate("/login");
+              setIsMobileMenuOpen(false);
+            }}
+            className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            <LogIn className="w-5 h-5 text-gray-700" />
+            <span className="text-gray-800 font-medium">Login</span>
+          </button>
+
+          {/* Location */}
+          <div className="border-t border-gray-200 pt-3">
+            <div className="flex items-center gap-3 p-3 rounded-lg">
+              <div className="flex-1">
+                <LocationSelector
+                  selectedLocation={selectedLocation}
+                  onLocationChange={setSelectedLocation}
+                />
+              </div>
             </div>
           </div>
 
-          {/* Mobile & Tablet Menu Dropdown */}
-          {isMobileMenuOpen && (
-            <div className="lg:hidden absolute top-full left-0 right-0 bg-white border-b border-gray-200 shadow-lg">
-              <div className="p-3 sm:p-4 space-y-3 sm:space-y-4">
-                <CategoriesDropdown categories={categories} />
-              </div>
-            </div>
-          )}
+          {/* Categories */}
+          <div className="border-t border-gray-200 pt-3">
+            <p className="text-xs text-gray-500 px-3 mb-2">Categories</p>
+            <CategoriesDropdown categories={categories} />
+          </div>
         </div>
-      </header>
+      </div>
+
+      {/* Overlay */}
+      {isMobileMenuOpen && (
+        <div
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300"
+        />
+      )}
+
       <CartToast
         isVisible={showToast}
         itemName={lastAddedItem}
