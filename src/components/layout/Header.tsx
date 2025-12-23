@@ -5,16 +5,7 @@ import SearchBar from "./header/SearchBar";
 import LocationSelector from "./header/LocationSelector";
 import CartButton from "./header/CartButton";
 import LoginButton from "./header/LoginButton";
-import {
-  Menu,
-  X,
-  MapPin,
-  Search,
-  Star,
-  Plus,
-  LogIn,
-  ShoppingCart,
-} from "lucide-react";
+import { Menu, X, Search, Star, Plus, LogIn, ShoppingCart } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 import { allProducts } from "../../data/products";
@@ -115,11 +106,19 @@ export default function Header({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [recentSearches, setRecentSearches] = useState(() => {
+  const [recentSearches, setRecentSearches] = useState<string[]>(() => {
     const savedSearches = localStorage.getItem("recentSearches");
-    return savedSearches
-      ? JSON.parse(savedSearches)
-      : ["Current Noodles", "Eggplant", "Wai Wai", "2pm Soupbase"];
+    if (savedSearches) {
+      try {
+        const parsed = JSON.parse(savedSearches);
+        return Array.isArray(parsed)
+          ? parsed
+          : ["Current Noodles", "Eggplant", "Wai Wai", "2pm Soupbase"];
+      } catch {
+        return ["Current Noodles", "Eggplant", "Wai Wai", "2pm Soupbase"];
+      }
+    }
+    return ["Current Noodles", "Eggplant", "Wai Wai", "2pm Soupbase"];
   });
   const searchResultsRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -438,10 +437,14 @@ export default function Header({
       </>
     );
   }
-
+  //inset-0 bg-black/10 backdrop-blur-sm z-40 transition-opacity duration-300
   return (
     <>
-      <header className="bg-white border-b border-gray-200 shadow-sm w-full sticky top-0 z-50 transition-all duration-300 ease-in-out transform scale-100">
+      <header
+        className={`${
+          isMobileMenuOpen ? "bg-white/40 backdrop-blur-lg" : "bg-white"
+        } border-b border-gray-200 shadow-sm w-full sticky top-0 z-50 transition-all duration-300 ease-in-out transform scale-100`}
+      >
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 transition-all duration-300 ease-in-out">
           {/* Desktop Header (lg and above) */}
           <div className="hidden lg:flex flex-nowrap items-center gap-4">
@@ -511,23 +514,25 @@ export default function Header({
             </div>
 
             <div className="flex-grow"></div>
-            <button
-              onClick={() => {
-                handleSearchFocus();
-                setIsMobileMenuOpen(false);
-              }}
-              className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              <Search className="w-5 h-5 text-gray-700" />
-              <span className="text-gray-800 font-medium"></span>
-            </button>
-            {/* Menu Button */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 hover:bg-gray-50 rounded-lg transition-colors mobile-menu-button"
-            >
-              <Menu className="w-6 h-6 text-gray-700" />
-            </button>
+            {/* Search and Menu Buttons Grouped Together */}
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => {
+                  handleSearchFocus();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                <Search className="w-5 h-5 text-gray-700" />
+              </button>
+              {/* Menu Button */}
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 hover:bg-gray-50 rounded-lg transition-colors mobile-menu-button"
+              >
+                <Menu className="w-6 h-6 text-gray-700" />
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -604,7 +609,7 @@ export default function Header({
       {isMobileMenuOpen && (
         <div
           onClick={() => setIsMobileMenuOpen(false)}
-          className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300"
+          className="md:hidden fixed inset-0 bg-black/10 backdrop-blur-sm z-40 transition-opacity duration-300"
         />
       )}
 

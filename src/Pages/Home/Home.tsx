@@ -68,7 +68,7 @@ export default function HomePage() {
   };
 
   const handleAddToCart = (product: Product, event?: any) => {
-    addToCart(product, event);
+    addToCart(product);
 
     setLastAddedItem(product.name);
     setLastAddedItemImage(product.image);
@@ -230,7 +230,9 @@ export default function HomePage() {
                           <ProductCard
                             key={product.id}
                             {...product}
-                            onAddToCart={() => handleAddToCart(product)}
+                            onAddToCart={(event) =>
+                              handleAddToCart(product, event)
+                            }
                             onClick={() => handleProductClick(product)}
                           />
                         ))}

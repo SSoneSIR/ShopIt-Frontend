@@ -217,7 +217,7 @@ export default function OrderReview() {
 
           {/* Right Column: Order Summary */}
           <div>
-            <div className="border-l border-gray-300 pl-5 sticky top-24 space-y-4">
+            <div className="border-l border-gray-300 pl-5 top-24 space-y-4">
               <div className="w-full p-2 border border-gray-100 rounded-3xl bg-white pl-5 sticky top-24">
                 <div className="border-b border-gray-300">
                   <h2 className="text-lg font-semibold text-gray-700 mb-3">
@@ -256,7 +256,7 @@ export default function OrderReview() {
               </div>
 
               {/* Payment Method */}
-              <div className="mb-6 pt-4 border border-gray-100 rounded-2xl bg-white sticky ">
+              <div className="mb-6 pt-4 border border-gray-100 rounded-2xl bg-white  ">
                 <div className="border-b border-gray-100 bg-white pl-5 sticky top-24">
                   <p className="text-sm font-semibold text-gray-700 mb-3">
                     Payment Method

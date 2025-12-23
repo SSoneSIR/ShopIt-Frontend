@@ -2,8 +2,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 import img1 from "/assets/Body/img1.webp";
 import img2 from "/assets/Body/img2.webp";
@@ -31,9 +29,9 @@ function Body() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8">
+    <div className="max-w-7xl mx-auto px-6 pd-8 pt-8">
       {/* Promo Cards Carousel for Mobile, Grid for Desktop */}
-      <div className="md:hidden mb-10">
+      <div className="md:hidden mb-2">
         <Carousel className="w-full max-w-full">
           <CarouselContent>
             {promoCards.map((card, index) => (

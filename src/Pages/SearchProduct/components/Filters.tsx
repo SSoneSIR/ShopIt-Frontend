@@ -48,67 +48,38 @@ export default function Filters({ onFiltersChange }: FiltersProps) {
   };
 
   return (
-    <div className="w-fit bg-white rounded-lg shadow-sm border border-gray-200">
+    <div className="w-full max-w-[95vw] sm:max-w-xs md:max-w-sm bg-white rounded-lg shadow-sm border border-gray-200">
       {/* Tab Headers */}
-      <div className="flex border-b border-gray-200">
+      <div className="flex flex-wrap">
         <button
           onClick={() => setActiveTab("sort")}
-          className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-medium transition-colors ${
-            activeTab === "sort"
-              ? "bg-green-50 text-green-700 border-b-2 border-green-600"
-              : "text-gray-500 hover:text-gray-700"
+          className={`flex-1 min-w-[100px] flex items-center justify-center gap-2 py-1 px-2 text-sm font-medium transition-colors ${
+            activeTab === "sort" ? "  " : "text-gray-500 hover:text-gray-700"
           }`}
-        >
-          <SlidersHorizontal className="w-4 h-4" />
-          Sort By
-        </button>
-        <button
-          onClick={() => setActiveTab("promotions")}
-          className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-medium transition-colors ${
-            activeTab === "promotions"
-              ? "bg-green-50 text-green-700 border-b-2 border-green-600"
-              : "text-gray-500 hover:text-gray-700"
-          }`}
-        >
-          <Tag className="w-4 h-4" />
-          Promotions
-        </button>
-        <button
-          onClick={() => setActiveTab("delivery")}
-          className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 text-sm font-medium transition-colors ${
-            activeTab === "delivery"
-              ? "bg-green-50 text-green-700 border-b-2 border-green-600"
-              : "text-gray-500 hover:text-gray-700"
-          }`}
-        >
-          <Truck className="w-4 h-4" />
-          Delivery
-        </button>
+        ></button>
       </div>
 
       {/* Tab Content */}
-      <div className="p-4">
+      <div className="p-4 min-w-[200px] bg-white overflow-y-auto">
         {/* Sort By Tab */}
         {activeTab === "sort" && (
           <div className="space-y-5">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Sort by
-              </label>
-              <div className="relative">
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-3 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                >
-                  <option value="most-popular">Most Popular</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="rating">Top Rated</option>
-                  <option value="newest">Newest Arrivals</option>
-                </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
-              </div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Sort by
+            </label>
+            <div className="relative">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="w-full appearance-none bg-white border border-gray-300 rounded-lg py-2 pl-3 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+              >
+                <option value="most-popular">Most Popular</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="rating">Top Rated</option>
+                <option value="newest">Newest Arrivals</option>
+              </select>
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
             </div>
 
             <div className="flex items-center">
@@ -131,10 +102,15 @@ export default function Filters({ onFiltersChange }: FiltersProps) {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Price Range
               </label>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-sm text-gray-500">
-                  Rs. {priceRange.min}
-                </span>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-500">
+                    Rs. {priceRange.min}
+                  </span>
+                  <span className="text-sm text-gray-500">
+                    Rs. {priceRange.max}
+                  </span>
+                </div>
                 <input
                   type="range"
                   min="200"
@@ -143,13 +119,8 @@ export default function Filters({ onFiltersChange }: FiltersProps) {
                   onChange={(e) =>
                     handlePriceChange(parseInt(e.target.value), priceRange.max)
                   }
-                  className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-green-600"
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-green-600"
                 />
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-500">
-                  Rs. {priceRange.max}
-                </span>
                 <input
                   type="range"
                   min="200"
@@ -158,7 +129,7 @@ export default function Filters({ onFiltersChange }: FiltersProps) {
                   onChange={(e) =>
                     handlePriceChange(priceRange.min, parseInt(e.target.value))
                   }
-                  className="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-green-600"
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-green-600"
                 />
               </div>
             </div>
@@ -167,12 +138,12 @@ export default function Filters({ onFiltersChange }: FiltersProps) {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Brands
               </label>
-              <div className="flex flex-wrap gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 gap-2">
                 {brands.map((brand) => (
                   <button
                     key={brand}
                     onClick={() => handleBrandToggle(brand)}
-                    className={`px-3 py-1.5 text-sm rounded-full border transition-colors ${
+                    className={`w-full px-2 py-1.5 text-xs sm:text-sm rounded-full border transition-colors text-center truncate ${
                       selectedBrands.includes(brand)
                         ? "bg-green-600 text-white border-green-600"
                         : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
@@ -189,11 +160,11 @@ export default function Filters({ onFiltersChange }: FiltersProps) {
         {/* Promotions Tab */}
         {activeTab === "promotions" && (
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between w-full">
               <span className="text-sm font-medium text-gray-700">Offers</span>
               <button
                 onClick={() => handlePromotionsChange("offers")}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
+                className={`relative ml-4 inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
                   promotions.offers ? "bg-green-600" : "bg-gray-300"
                 }`}
               >
@@ -205,13 +176,13 @@ export default function Filters({ onFiltersChange }: FiltersProps) {
               </button>
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between w-full">
               <span className="text-sm font-medium text-gray-700">
                 Free Delivery
               </span>
               <button
                 onClick={() => handlePromotionsChange("freeDelivery")}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
+                className={`relative ml-4 inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
                   promotions.freeDelivery ? "bg-green-600" : "bg-gray-300"
                 }`}
               >
