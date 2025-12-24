@@ -112,7 +112,7 @@ export default function HomePage() {
         }`}
       >
         <Body />
-        <main className="container mx-auto px-4 py-6">
+        <main className="max-w-7xl mx-auto px-6 py-6">
           <div className="mb-8">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-foreground font-bold text-xl">

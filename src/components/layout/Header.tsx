@@ -277,7 +277,7 @@ export default function Header({
     return (
       <>
         <header className="bg-white border-b border-gray-200 shadow-sm w-full sticky top-0 z-50 transition-all duration-300 ease-in-out transform scale-100">
-          <div className="max-w-7xl mx-auto px-4 md:px-6 py-3">
+          <div className="max-w-7xl mx-auto px-6 py-3">
             <div className="flex items-center gap-2 w-full">
               <div className="flex-grow relative search-bar-container">
                 <SearchBar
@@ -304,7 +304,7 @@ export default function Header({
           ref={searchResultsRef}
           className="fixed top-[70px] left-0 right-0 bg-gray-50 border-b border-gray-200 shadow-lg z-40 max-h-[70vh] overflow-y-auto"
         >
-          <div className="max-w-7xl mx-auto px-4 md:px-6 py-4">
+          <div className="max-w-7xl mx-auto px-6 py-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Product Results - Left Column */}
               <div>
@@ -445,7 +445,7 @@ export default function Header({
           isMobileMenuOpen ? "bg-white/40 backdrop-blur-lg" : "bg-white"
         } border-b border-gray-200 shadow-sm w-full sticky top-0 z-50 transition-all duration-300 ease-in-out transform scale-100`}
       >
-        <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 transition-all duration-300 ease-in-out">
+        <div className="max-w-7xl mx-auto px-6 py-3 transition-all duration-300 ease-in-out">
           {/* Desktop Header (lg and above) */}
           <div className="hidden lg:flex flex-nowrap items-center gap-4">
             <div className="flex-shrink-0">

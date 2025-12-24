@@ -29,7 +29,7 @@ function Body() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-6 pd-8 pt-8">
+    <div className="max-w-7xl mx-auto px-6 pt-8">
       {/* Promo Cards Carousel for Mobile, Grid for Desktop */}
       <div className="md:hidden mb-2">
         <Carousel className="w-full max-w-full">
