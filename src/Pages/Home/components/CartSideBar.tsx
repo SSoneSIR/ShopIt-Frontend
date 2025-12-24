@@ -18,7 +18,6 @@ interface CartSidebarProps {
   onRemoveItem: (id: number) => void;
   isLoading?: boolean;
 }
-
 export default function CartSidebar({
   isOpen,
   onClose,
